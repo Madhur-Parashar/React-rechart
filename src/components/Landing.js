@@ -87,12 +87,6 @@ export default class Landing extends Component {
   };
 
   disabledDate = current => {
-    // console.log(
-    //   `current: ${current} and  ${current <
-    //     new Date(this.state.lowestDate)} and date: ${moment(
-    //     this.state.lowestDate
-    //   )}`
-    // );
     return (
       current < moment(this.state.lowestDate) ||
       current > moment(this.state.highestDate)
