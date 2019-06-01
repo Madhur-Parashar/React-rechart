@@ -28,7 +28,7 @@ export default class Landing extends Component {
     data: []
   };
   componentDidMount() {
-    const url = "http://www.mocky.io/v2/5cd04a20320000442200fc10";
+    const url = "https://www.mocky.io/v2/5cd04a20320000442200fc10";
     let params = {
       method: "GET",
       url: url
@@ -36,7 +36,6 @@ export default class Landing extends Component {
 
     axios(params)
       .then(responseData => {
-       
         let res = responseData.data.map((data, index) => {
           let obj = { ...data };
           let eCPM = (obj.revenue / obj.impressions) * 1000;
@@ -50,10 +49,9 @@ export default class Landing extends Component {
         });
 
         var highestDate = res[res.length - 1].timestamp;
- 
 
         var lowestDate = res[0].timestamp;
-       
+
         const pager = { ...this.state.pagination };
         pager.total = res.length;
         this.setState({
@@ -70,12 +68,11 @@ export default class Landing extends Component {
       });
   }
   onChange = (date, dateString) => {
-    console.log(date, dateString);
     let data = [...this.state.data];
     let modifyData = data.filter(
       val => val.timestamp >= dateString[0] && val.timestamp <= dateString[1]
     );
-    console.log(modifyData);
+
     const pager = { ...this.state.pagination };
     pager.total = modifyData.length;
     this.setState({
