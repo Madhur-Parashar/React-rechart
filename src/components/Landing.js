@@ -36,7 +36,7 @@ export default class Landing extends Component {
 
     axios(params)
       .then(responseData => {
-        console.log(responseData);
+       
         let res = responseData.data.map((data, index) => {
           let obj = { ...data };
           let eCPM = (obj.revenue / obj.impressions) * 1000;
@@ -50,11 +50,10 @@ export default class Landing extends Component {
         });
 
         var highestDate = res[res.length - 1].timestamp;
-        console.log(highestDate);
+ 
 
         var lowestDate = res[0].timestamp;
-        console.log(lowestDate);
-        console.log(res);
+       
         const pager = { ...this.state.pagination };
         pager.total = res.length;
         this.setState({
