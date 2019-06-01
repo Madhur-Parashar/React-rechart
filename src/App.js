@@ -1,21 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import './App.css';
+import "./App.css";
 
 import Landing from "./components/Landing";
 
-
 export default class App extends Component {
-
-  render = () =>{
-   
-    
+  render = () => {
     return (
       <div>
-       <Landing/>
-         </div>
-        
-    )
-}
-
+        <Landing />
+      </div>
+    );
+  };
 }
