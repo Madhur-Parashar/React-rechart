@@ -11,7 +11,8 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend
+  Legend,
+  ResponsiveContainer
 } from "recharts";
 const { RangePicker } = DatePicker;
 
@@ -121,13 +122,7 @@ export default class Landing extends Component {
     ];
 
     return (
-      <Layout
-        style={{
-          background: "#F3F9FB",
-          padding: 24,
-          margin: 0
-        }}
-      >
+      <Layout>
         <Content>
           <div style={{ textAlign: "center", marginBottom: 40 }}>
             <div className="rangeSelection">Select range</div>
@@ -137,20 +132,19 @@ export default class Landing extends Component {
               value={this.state.defaultDate}
             />
           </div>
-
-          <LineChart
-            width={800}
-            height={400}
-            style={{ margin: "auto" }}
-            data={this.state.tableChartData}
-          >
-            <XAxis dataKey="timestamp" />
-            <YAxis />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="eCPM" stroke="#82ca9d" />
-          </LineChart>
+          <ResponsiveContainer width="95%" height={400}>
+            <LineChart
+              style={{ margin: "auto" }}
+              data={this.state.tableChartData}
+            >
+              <XAxis dataKey="timestamp" />
+              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="eCPM" stroke="#82ca9d" />
+            </LineChart>
+          </ResponsiveContainer>
 
           <Table
             columns={columns}
