@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import logo from './logo.svg';
-import { Layout, DatePicker, Table } from "antd";
+import { Layout, DatePicker, Table, message } from "antd";
 import moment from "moment";
 import axios from "axios";
 import "./landing.css";
@@ -23,158 +23,36 @@ export default class Landing extends Component {
     highestDate: null,
     lowestDate: null,
     disabledDate: false,
-
+    defaultDate: [],
     tableChartData: null,
-    data: [
-      {
-        timestamp: "2019-04-10",
-        game: "Callbreak Multiplier",
-        revenue: 25,
-        impressions: 1040555
-      },
-      {
-        timestamp: "2019-04-10",
-        game: "World Cricket Championship",
-        revenue: 150,
-        impressions: 1140555
-      },
-      {
-        timestamp: "2019-04-11",
-        game: "Callbreak Multiplier",
-        revenue: 140,
-        impressions: 1240000
-      },
-      {
-        timestamp: "2019-04-11",
-        game: "World Cricket Championship",
-        revenue: 130,
-        impressions: 1100666
-      },
-      {
-        timestamp: "2019-04-12",
-        game: "Callbreak Multiplier",
-        revenue: 150,
-        impressions: 1345222
-      },
-      {
-        timestamp: "2019-04-12",
-        game: "World Cricket Championship",
-        revenue: 76,
-        impressions: 1000111
-      },
-      {
-        timestamp: "2019-04-13",
-        game: "Callbreak Multiplier",
-        revenue: 50,
-        impressions: 1046123
-      },
-      {
-        timestamp: "2019-04-13",
-        game: "World Cricket Championship",
-        revenue: 300,
-        impressions: 5280000
-      },
-      {
-        timestamp: "2019-04-14",
-        game: "Callbreak Multiplier",
-        revenue: 50,
-        impressions: 1111222
-      },
-      {
-        timestamp: "2019-04-14",
-        game: "World Cricket Championship",
-        revenue: 110,
-        impressions: 1240555
-      },
-      {
-        timestamp: "2019-04-15",
-        game: "Callbreak Multiplier",
-        revenue: 95,
-        impressions: 1240555
-      },
-      {
-        timestamp: "2019-04-15",
-        game: "World Cricket Championship",
-        revenue: 75,
-        impressions: 1240555
-      },
-      {
-        timestamp: "2019-04-16",
-        game: "Callbreak Multiplier",
-        revenue: 85,
-        impressions: 1240555
-      },
-      {
-        timestamp: "2019-04-16",
-        game: "World Cricket Championship",
-        revenue: 150,
-        impressions: 1240555
-      },
-      {
-        timestamp: "2019-04-17",
-        game: "Callbreak Multiplier",
-        revenue: 100,
-        impressions: 1240555
-      },
-      {
-        timestamp: "2019-04-17",
-        game: "World Cricket Championships",
-        revenue: 200,
-        impressions: 1240555
-      },
-      {
-        timestamp: "2019-04-18",
-        game: "Callbreak Multiplier",
-        revenue: 500,
-        impressions: 5940555
-      },
-      {
-        timestamp: "2019-04-18",
-        game: "World Cricket Championship",
-        revenue: 120,
-        impressions: 1240555
-      },
-      {
-        timestamp: "2019-04-19",
-        game: "Callbreak Multiplier",
-        revenue: 150,
-        impressions: 1240555
-      },
-      {
-        timestamp: "2019-04-19",
-        game: "World Cricket Championship",
-        revenue: 100,
-        impressions: 1240555
-      }
-    ]
+    data: []
   };
   componentDidMount() {
-    const url = "http(s)://www.mocky.io/v2/5cd04a20320000442200fc10";
+    const url = "http://www.mocky.io/v2/5cd04a20320000442200fc10";
     let params = {
       method: "GET",
-      url: url,
-      headers: { "Access-Control-Allow-Origin": "*" }
+      url: url
     };
 
     axios(params)
       .then(responseData => {
         console.log(responseData);
-        let res = responseData.map((data, index) => {
+        let res = responseData.data.map((data, index) => {
           let obj = { ...data };
           let eCPM = (obj.revenue / obj.impressions) * 1000;
-          obj["eCPM"] = eCPM;
+          obj["eCPM"] = eCPM.toFixed(3);
           return obj;
         });
-        responseData.sort(function(a, b) {
+        res.sort(function(a, b) {
           var date1 = new Date(a.timestamp);
           var date2 = new Date(b.timestamp);
           return date1 - date2;
         });
 
-        var highestDate = responseData[this.state.data.length - 1].timestamp;
+        var highestDate = res[res.length - 1].timestamp;
         console.log(highestDate);
 
-        var lowestDate = responseData[0].timestamp;
+        var lowestDate = res[0].timestamp;
         console.log(lowestDate);
         console.log(res);
         const pager = { ...this.state.pagination };
@@ -184,38 +62,12 @@ export default class Landing extends Component {
           lowestDate: lowestDate,
           highestDate: highestDate,
           tableChartData: res,
-          pagination: pager
+          pagination: pager,
+          defaultDate: [moment(lowestDate), moment(highestDate)]
         });
       })
       .catch(err => {
-        let responseData = [...this.state.data];
-        let res = responseData.map((data, index) => {
-          let obj = { ...data };
-          let eCPM = (obj.revenue / obj.impressions) * 1000;
-          obj["eCPM"] = eCPM.toFixed(3);
-          return obj;
-        });
-        responseData.sort(function(a, b) {
-          var date1 = new Date(a.timestamp);
-          var date2 = new Date(b.timestamp);
-          return date1 - date2;
-        });
-
-        var highestDate = responseData[this.state.data.length - 1].timestamp;
-        // console.log(highestDate);
-
-        var lowestDate = responseData[0].timestamp;
-        // console.log(lowestDate);
-        // console.log(res);
-        const pager = { ...this.state.pagination };
-        pager.total = res.length;
-        this.setState({
-          data: res,
-          lowestDate: lowestDate,
-          highestDate: highestDate,
-          tableChartData: res,
-          pagination: pager
-        });
+        message.error("Check your internet connection...");
       });
   }
   onChange = (date, dateString) => {
@@ -227,7 +79,11 @@ export default class Landing extends Component {
     console.log(modifyData);
     const pager = { ...this.state.pagination };
     pager.total = modifyData.length;
-    this.setState({ tableChartData: modifyData, pagination: pager });
+    this.setState({
+      tableChartData: modifyData,
+      pagination: pager,
+      defaultDate: [moment(dateString[0]), moment(dateString[1])]
+    });
   };
 
   disabledDate = current => {
@@ -275,27 +131,28 @@ export default class Landing extends Component {
     ];
 
     return (
-      <Layout>
-        <Content
-          style={{
-            background: "#F3F9FB",
-            padding: 24,
-            margin: 0
-          }}
-        >
+      <Layout
+        style={{
+          background: "#F3F9FB",
+          padding: 24,
+          margin: 0
+        }}
+      >
+        <Content>
           <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <div className="rangeSelection">Select range</div>
             <RangePicker
               onChange={this.onChange}
               disabledDate={this.disabledDate}
-              defaultValue={[moment("2019-04-10"), moment("2019-04-19")]}
+              value={this.state.defaultDate}
             />
           </div>
 
           <LineChart
-            width={600}
-            height={300}
+            width={800}
+            height={400}
+            style={{ margin: "auto" }}
             data={this.state.tableChartData}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <XAxis dataKey="timestamp" />
             <YAxis />
