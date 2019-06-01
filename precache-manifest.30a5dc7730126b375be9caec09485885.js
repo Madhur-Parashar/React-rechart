@@ -4,15 +4,15 @@ self.__precacheManifest = [
     "url": "/React-rechart/static/js/runtime~main.cebb86a2.js"
   },
   {
-    "revision": "5806234798b2fa6cae10",
-    "url": "/React-rechart/static/js/main.5c7d72b7.chunk.js"
+    "revision": "bbfeb22f2dce37caddf0",
+    "url": "/React-rechart/static/js/main.53ef357c.chunk.js"
   },
   {
     "revision": "b6b8528831bf99062c56",
     "url": "/React-rechart/static/js/2.4df5fffc.chunk.js"
   },
   {
-    "revision": "5806234798b2fa6cae10",
+    "revision": "bbfeb22f2dce37caddf0",
     "url": "/React-rechart/static/css/main.5981bcf8.chunk.css"
   },
   {
@@ -20,7 +20,7 @@ self.__precacheManifest = [
     "url": "/React-rechart/static/css/2.d6bb36cd.chunk.css"
   },
   {
-    "revision": "e11ccefaf89d7f9cfe95aebd5a64303b",
+    "revision": "a61e352c36ddb3b8c1bf2b244488d9ab",
     "url": "/React-rechart/index.html"
   }
 ];
